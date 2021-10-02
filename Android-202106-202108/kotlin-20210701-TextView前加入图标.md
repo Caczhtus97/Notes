@@ -1,0 +1,3 @@
+# Android
+
+TextView前加入图标可以在控件中加入drawableStart属性，缺点是不能控制资源文件的大小
