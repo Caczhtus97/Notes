@@ -1,0 +1,69 @@
+C51 COMPILER V9.59.0.0   PROJ                                                              10/30/2018 20:55:24 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE PROJ
+OBJECT MODULE PLACED IN .\Objects\proj.obj
+COMPILER INVOKED BY: D:\Keil4\C51\BIN\C51.EXE proj.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\proj.l
+                    -st) TABS(2) OBJECT(.\Objects\proj.obj)
+
+line level    source
+
+   1          #include<reg52.h>
+   2          
+   3          void delay(unsigned int k);
+   4          sbit LED = P0^0; //LED
+   5          sbit Leden = P1^2; //LED使能端 高导通
+   6          sbit wei = P1^1; //数码管位控制
+   7          sbit Line = P1^3; //点阵行控制
+   8          sbit lcd_en = P1^7; //1602液晶使能端
+   9          
+  10          unsigned int i,j;
+  11          
+  12          unsigned int table[] = {
+  13            0xfd,0xf5,0xd5,0x55,
+  14            0xff,
+  15            0x7f,0x5f,0x57,0x55,
+  16            0xff,
+  17            0x00,0xff,0x00,0xff
+  18          };
+  19          
+  20          void main()
+  21          {
+  22   1        lcd_en = 0;
+  23   1        P0 = 0x00;
+  24   1        Line = 0;
+  25   1        P0 = 0xff;
+  26   1        wei = 0;
+  27   1        Leden = 1;
+  28   1        while(1)
+  29   1        {
+  30   2          for(i = 0;i < 14;i++) {
+  31   3            P0 = table[i];
+  32   3            delay(50);
+  33   3          }
+  34   2        }
+  35   1      }
+  36          
+  37          void delay(unsigned int k)
+  38          {
+  39   1        unsigned int z,x;
+  40   1        for(z = 0;z < k;z++) {
+  41   2          for(x = 0;x < 1800;x++);
+  42   2        }
+  43   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     88    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     32    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+C51 COMPILER V9.59.0.0   PROJ                                                              10/30/2018 20:55:24 PAGE 2   
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

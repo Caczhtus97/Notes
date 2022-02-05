@@ -1,0 +1,117 @@
+C51 COMPILER V9.59.0.0   PROJ5                                                             10/30/2018 23:50:55 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE PROJ5
+OBJECT MODULE PLACED IN .\Objects\proj5.obj
+COMPILER INVOKED BY: D:\Keil4\C51\BIN\C51.EXE proj5.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\proj5
+                    -.lst) TABS(2) OBJECT(.\Objects\proj5.obj)
+
+line level    source
+
+   1          #include<reg52.h>
+   2          
+   3          void delay(unsigned int k);
+   4          void change(unsigned int *table,unsigned int num,unsigned int Size);
+   5          sbit LED = P0^0; //LED
+   6          sbit led_en = P1^2; //LED使能端 高导通
+   7          sbit wei = P1^1; //数码管位控制
+   8          sbit Line = P1^3; //点阵行控制
+   9          sbit lcd_en = P1^7; //1602液晶使能端
+  10          sbit duan = P1^0;  //数码管段码控制
+  11          
+  12          sbit Key = P2^4;
+  13          
+  14          unsigned int i,j;
+  15          
+  16          unsigned int table[] = {
+  17            0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f
+  18          };  //duan  0~9
+  19          
+  20          /*
+  21          0: 0011 1111
+  22          1: 0000 0110
+  23          2: 0101 1011
+  24          3: 0100 1111
+  25          4: 0110 0110
+  26          5: 0110 1101
+  27          6: 0111 1101
+  28          7: 0000 0111
+  29          8: 0111 1111
+  30          9: 0110 1111
+  31          */
+  32          
+  33          unsigned int table2[] = {
+  34            0xfe,0xfd,0xfb,0xf7,0xef,0xdf,0xbf,0x7f
+  35          };   //wei
+  36          
+  37          unsigned int table3[4] = {1,0,0,0},num = 1000; //计数
+  38          
+  39          void main()
+  40          {
+  41   1        lcd_en = 0;
+  42   1        P0 = 0x00;
+  43   1        Line = 0;
+  44   1        P0 = 0xff;
+  45   1        led_en = 0;
+  46   1        j = 0;
+  47   1        while(1)
+  48   1        {
+  49   2          for(i = 0;i < 4; i++) {
+  50   3            duan = 1;
+  51   3            P0 = table[table3[i]];
+  52   3            duan = 0;
+  53   3            wei = 1;
+  54   3            P0 = table2[i];
+C51 COMPILER V9.59.0.0   PROJ5                                                             10/30/2018 23:50:55 PAGE 2   
+
+  55   3            wei = 0;
+  56   3            delay(1);
+  57   3          }
+  58   2          j++;
+  59   2          if(j == 40) {
+  60   3            num= ++num % 10000;
+  61   3            change(table3,num,4);
+  62   3            j = 0;
+  63   3          }
+  64   2          if(Key == 0) {
+  65   3            delay(7);
+  66   3            if(Key == 0) {
+  67   4              change(table3,0,4);
+  68   4              num = 0;
+  69   4            }
+  70   3            delay(200);
+  71   3          }   
+  72   2        }
+  73   1      }
+  74          
+  75          void delay(unsigned int k)
+  76          {
+  77   1        unsigned int z,x;
+  78   1        for(z = 0;z < k;z++) {
+  79   2          for(x = 0;x < 500;x++);
+  80   2        }
+  81   1      }
+  82          
+  83          void change(unsigned int *table,unsigned int num,unsigned int Size)
+  84          {
+  85   1        int i = Size -1;
+  86   1        while(i >= 0) {
+  87   2          table[i] = num%10;
+  88   2          num /= 10;
+  89   2          i--;
+  90   2        }
+  91   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    308    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     50       9
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
