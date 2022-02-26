@@ -356,5 +356,195 @@ print(arr)
 
 我们传递了一系列要与轴一起连接到 concatenate() 方法的数组。如果未显式传递轴，则将其视为 0。
 
+```python
+import numpy as np
+
+arr1 = np.array([1, 2, 3])
+
+arr2 = np.array([4, 5, 6])
+
+arr = np.stack((arr1, arr2), axis=1)
+
+print(arr)
+```
+
+参考博客：
+
+[1. numpy堆叠问题](https://blog.csdn.net/qq_39048976/article/details/101313893)
+
+[2. 强推这个博客，深入浅出！](https://blog.csdn.net/Riverhope/article/details/78922006)
+
+
+```python
+import numpy as np
+a=[[1,2,3],
+   [4,5,6]]
+b=[[1,2,3],
+   [4,5,6]]
+c=[[1,2,3],
+   [4,5,6]]
+print("a=",a)
+print("b=",b)
+print("c=",c)
+
+print("增加一维，新维度的下标为0")
+d=np.stack((a,b,c),axis=0)
+print(d)
+
+print("增加一维，新维度的下标为1")
+d=np.stack((a,b,c),axis=1)
+print(d)
+print("增加一维，新维度的下标为2")
+d=np.stack((a,b,c),axis=2)
+print(d)
+
+输出：
+('a=', [[1, 2, 3], [4, 5, 6]])
+('b=', [[1, 2, 3], [4, 5, 6]])
+('c=', [[1, 2, 3], [4, 5, 6]])
+增加一维，新维度的下标为0
+[[[1 2 3]
+  [4 5 6]]
+
+ [[1 2 3]
+  [4 5 6]]
+
+ [[1 2 3]
+  [4 5 6]]]
+增加一维，新维度的下标为1
+[[[1 2 3]
+  [1 2 3]
+  [1 2 3]]
+
+ [[4 5 6]
+  [4 5 6]
+  [4 5 6]]]
+增加一维，新维度的下标为2
+[[[1 1 1]
+  [2 2 2]
+  [3 3 3]]
+
+ [[4 4 4]
+  [5 5 5]
+  [6 6 6]]]
+```
+
+#### 沿行堆叠
+
+NumPy 提供了一个辅助函数：hstack() 沿行堆叠。
+
+hstack， horizontal 水平堆叠
+
+hstack水平堆叠要求行必须初始化（行数对齐）
+
+```python
+import numpy as np
+
+arr1 = np.array([1, 2, 3])
+
+arr2 = np.array([4, 5, 6])
+
+arr = np.hstack((arr1, arr2))
+
+print(arr)
+```
+
+```python
+import numpy as np
+a=[[1],[2],[3]]
+b=[[1],[2],[3]]
+c=[[1],[2],[3]]
+d=[[1],[2],[3]]
+print(np.hstack((a,b,c,d)))
+
+输出：
+[[1 1 1 1]
+ [2 2 2 2]
+ [3 3 3 3]]
+```
+
+#### 沿列堆叠
+
+NumPy 提供了一个辅助函数：vstack() 沿列堆叠。
+
+vstack，vertical 垂直堆叠
+
+vstack垂直堆叠要求列必须初始化（列数对齐）
+
+```python
+import numpy as np
+
+arr1 = np.array([1, 2, 3])
+
+arr2 = np.array([4, 5, 6])
+
+arr = np.vstack((arr1, arr2))
+
+print(arr)
+```
+
+#### 沿高度堆叠（深度）
+
+NumPy 提供了一个辅助函数：dstack() 沿高度堆叠，该高度与深度相同。
+
+```python
+import numpy as np
+
+arr1 = np.array([1, 2, 3])
+
+arr2 = np.array([4, 5, 6])
+
+arr = np.dstack((arr1, arr2))
+
+print(arr)
+```
+
+### 7. 数组拆分
+
+拆分是连接的反向操作。
+
+连接（Joining）是将多个数组合并为一个，拆分（Spliting）将一个数组拆分为多个。
+
+我们使用 `array_split()` 分割数组，将要分割的数组和分割数传递给它。
+
+```python
+import numpy as np
+
+arr = np.array([1, 2, 3, 4, 5, 6])
+
+newarr = np.array_split(arr, 4)
+
+print(newarr)
+```
+
+**如果数组中的元素少于要求的数量，它将从末尾进行相应调整。**
+
+*我们也有 split() 方法可用，但是当源数组中的元素较少用于拆分时，它将不会调整元素，如上例那样，array_split() 正常工作，但 split() 会失败。*
+
+高维：(沿行把这个 2-D 拆分为三个 2-D 数组。)
+
+```python
+import numpy as np
+
+arr = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12], [13, 14, 15], [16, 17, 18]])
+
+newarr = np.array_split(arr, 3, axis=1)
+
+print(newarr)
+```
+
+按列拆分：
+
+```python
+import numpy as np
+
+arr = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12], [13, 14, 15], [16, 17, 18]])
+
+newarr = np.hsplit(arr, 3)
+
+print(newarr)
+```
+
+
 
 
